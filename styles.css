@@ -141,7 +141,7 @@ button {
   width: 100%;
 }
 
-button:hover {
+button:not(:disabled):hover {
   background: linear-gradient(45deg, #b00000, #ff1a1a);
   transform: translateY(-2px) scale(1.05);
   box-shadow: 0 5px 18px rgba(128,0,0,0.6);
