@@ -1,8 +1,8 @@
-/* Fondo con gradiente animado */
+/* ===== Fondo con gradiente animado ===== */
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(-45deg, #800000, #550000, #330000, #990000);
+  background: linear-gradient(-45deg, #970000, #6f0000, #520000, #990000);
   background-size: 400% 400%;
   animation: fondoMovimiento 12s ease infinite;
   height: 100vh;
@@ -12,12 +12,12 @@ body {
 }
 
 @keyframes fondoMovimiento {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
 
-/* Caja login */
+/* ===== Caja principal de login ===== */
 .login-container {
   background: rgba(255, 255, 255, 0.95);
   padding: 35px 30px;
@@ -32,10 +32,10 @@ body {
 
 @keyframes aparecer {
   from { transform: scale(0.85); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+  to   { transform: scale(1); opacity: 1; }
 }
 
-/* Logos superiores */
+/* ===== Logos superiores ===== */
 .logos {
   display: flex;
   justify-content: space-between;
@@ -54,7 +54,7 @@ body {
   transform: rotateY(15deg) scale(1.1);
 }
 
-/* Logo central */
+/* ===== Logo central ===== */
 .logo-center {
   display: flex;
   justify-content: center;
@@ -73,15 +73,15 @@ body {
 
 @keyframes latido {
   0%, 50%, 100% { transform: scale(1); }
-  25%, 75% { transform: scale(1.06); }
+  25%, 75%      { transform: scale(1.06); }
 }
 
 @keyframes glow {
   from { box-shadow: 0 0 12px rgba(128,0,0,0.5); }
-  to { box-shadow: 0 0 28px rgba(128,0,0,0.9); }
+  to   { box-shadow: 0 0 28px rgba(128,0,0,0.9); }
 }
 
-/* Título */
+/* ===== Título ===== */
 h2 {
   color: #800000;
   margin-bottom: 20px;
@@ -90,7 +90,7 @@ h2 {
   letter-spacing: 1px;
 }
 
-/* Formulario */
+/* ===== Formulario ===== */
 form {
   display: flex;
   flex-direction: column;
@@ -111,6 +111,7 @@ form {
   font-size: 16px;
 }
 
+/* ===== Campos de texto ===== */
 input {
   width: 100%;
   padding: 8px 12px 8px 36px;
@@ -128,6 +129,7 @@ input:focus {
   outline: none;
 }
 
+/* ===== Botón ===== */
 button {
   background: linear-gradient(45deg, #800000, #b00000);
   color: white;
@@ -147,6 +149,7 @@ button:not(:disabled):hover {
   box-shadow: 0 5px 18px rgba(128,0,0,0.6);
 }
 
+/* ===== Texto de registro ===== */
 .register-text {
   margin-top: 18px;
   text-align: center;
