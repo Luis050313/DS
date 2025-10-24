@@ -30,8 +30,11 @@ document.addEventListener("DOMContentLoaded", () => {
  * Función de login: envía los datos al servidor y maneja la respuesta
  */
 function login() {
-  const usuario = document.getElementById("usuario").value.trim();
-  const password = document.getElementById("password").value.trim();
+  const usuarioInput = document.getElementById("usuario");
+  const passwordInput = document.getElementById("password");
+
+  const usuario = usuarioInput.value.trim();
+  const password = passwordInput.value.trim();
 
   if (!usuario || !password) {
     mostrarMensaje("Por favor, llena todos los campos", "error");
@@ -50,12 +53,26 @@ function login() {
     .then(data => {
       if (data.status === "success") {
         mostrarMensaje(data.message, "success");
-        setTimeout(() => window.location.href = "dashboard.html", 1200);
+
+        // Determinar destino según la longitud del usuario
+        let destino = "";
+        if (usuario.length === 4) {
+          destino = "Auxi/auxiliar.html";
+        } else if (usuario.length === 8) {
+          destino = "Alum/alumnos.html";
+        }
+
+        setTimeout(() => {
+          if (destino) window.location.href = destino;
+        }, 1200);
+
       } else {
         mostrarMensaje(data.message, "error");
       }
-      usuario.value = '';
-      password.value = '';
+
+      // Vaciar campos después de mostrar mensaje
+      usuarioInput.value = "";
+      passwordInput.value = "";
     })
     .catch(error => {
       console.error("Error en la conexión:", error);
