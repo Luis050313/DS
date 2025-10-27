@@ -1,3 +1,215 @@
+
+/* Fondo con gradiente animado */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(-45deg, #1a1a1a, #2a0f3a, #3f1a5b, #0f0f12);
+  background-size: 400% 400%;
+  animation: fondoMovimiento 12s ease infinite;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@keyframes fondoMovimiento {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Caja login */
+.login-container {
+  position: relative;
+  background: rgba(20, 20, 24, 0.85);
+  padding: 35px 30px;
+  border-radius: 20px;
+  text-align: center;
+  width: 360px;
+  max-width: 90%;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+  animation: aparecer 1s ease;
+  border: 1px solid rgba(160, 100, 220, 0.25);
+  overflow: hidden;
+}
+
+@keyframes aparecer {
+  from { transform: scale(0.85); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Logos superiores */
+.logos {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.logos img {
+  height: 70px;
+  max-width: 45%;
+  object-fit: contain;
+  transition: transform 0.5s ease;
+}
+
+.logos img:hover {
+  transform: rotateY(15deg) scale(1.1);
+}
+
+/* Logo central */
+.logo-center {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0 15px 0;
+}
+
+.logo-center img {
+  height: 100px;
+  width: auto;
+  border-radius: 50%;
+  padding: 4px;
+  background: #0b0b0d;
+  box-shadow: 0 0 18px rgba(150, 90, 220, 0.6);
+  animation: latido 2s infinite, glow 3s infinite alternate;
+}
+
+@keyframes latido {
+  0%, 50%, 100% { transform: scale(1); }
+  25%, 75% { transform: scale(1.06); }
+}
+
+@keyframes glow {
+  from { box-shadow: 0 0 12px rgba(150, 90, 220, 0.4); }
+  to { box-shadow: 0 0 28px rgba(150, 90, 220, 0.9); }
+}
+
+/* Marco animado tipo rayo (solo borde) */
+.login-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 20px; /* igual al contenedor */
+  padding: 2px;       /* grosor del borde animado */
+  background: conic-gradient(from var(--a,0deg),
+    transparent 0turn 0.85turn,
+    rgba(210,190,255,0.95) 0.875turn 0.905turn,
+    rgba(155,107,255,0.85) 0.905turn 0.94turn,
+    rgba(120,80,200,0.75) 0.94turn 0.97turn,
+    transparent 0.97turn 1turn
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude; /* estándar */
+  animation: border-sweep 2.1s linear infinite;
+  pointer-events: none;
+  box-shadow: 0 0 14px rgba(155,107,255,0.25); /* glow suave fuera del borde */
+}
+
+@keyframes border-sweep {
+  to { --a: 1turn; }
+}
+
+/* halo exterior sutil opcional */
+.login-container::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 26px;
+  background: radial-gradient(60% 60% at 50% 50%, rgba(155,107,255,0.15), transparent 70%);
+  filter: blur(6px);
+  pointer-events: none;
+}
+
+/* Título */
+h2 {
+  color: #d0c6ff;
+  margin-bottom: 20px;
+  font-weight: bold;
+  font-size: 20px;
+  letter-spacing: 1px;
+}
+
+/* Formulario */
+form {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.input-container {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.input-container i {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  color: #9b6bff;
+  font-size: 16px;
+}
+
+input {
+  width: 100%;
+  padding: 8px 12px 8px 36px;
+  border: 1px solid #3a3a40;
+  background: #0f0f12;
+  color: #e6e6e6;
+  border-radius: 12px;
+  font-size: 15px;
+  line-height: 1.4;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+input:focus {
+  border-color: #9b6bff;
+  box-shadow: 0 0 10px rgba(155,107,255,0.45);
+  outline: none;
+}
+
+button {
+  background: linear-gradient(45deg, #5a2ea6, #8a5cff);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+button:not(:disabled):hover {
+  background: linear-gradient(45deg, #7647d5, #a388ff);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 5px 18px rgba(155,107,255,0.4);
+}
+
+.register-text {
+  margin-top: 18px;
+  text-align: center;
+  color: #c2c2c7;
+  font-size: 14px;
+}
+
+.register-text a {
+  color: #b79bff;
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.register-text a:hover {
+  color: #e0d7ff;
+  text-decoration: underline;
+}
 /* ===== Fondo con gradiente animado ===== */
 body {
   margin: 0;
