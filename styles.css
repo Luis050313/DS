@@ -1,5 +1,5 @@
 
-/* Fondo con gradiente animado */
+/* Fondo con gradiente animado y partículas */
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
@@ -10,6 +10,30 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    radial-gradient(circle at 20% 80%, rgba(155,107,255,0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(210,190,255,0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(120,80,200,0.1) 0%, transparent 50%);
+  background-size: 300px 300px, 400px 400px, 200px 200px;
+  animation: particles 20s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes particles {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(5%, -5%) rotate(90deg); }
+  50% { transform: translate(-5%, 5%) rotate(180deg); }
+  75% { transform: translate(3%, -3%) rotate(270deg); }
 }
 
 @keyframes fondoMovimiento {
@@ -29,7 +53,7 @@ body {
   max-width: 90%;
   backdrop-filter: blur(12px);
   box-shadow: 0 15px 40px rgba(0,0,0,0.5);
-  animation: aparecer 1s ease;
+  animation: aparecer 1s ease, purpleGlowPulse 2s ease-in-out infinite;
   border: 1px solid rgba(160, 100, 220, 0.25);
   overflow: hidden;
 }
@@ -85,42 +109,27 @@ body {
   to { box-shadow: 0 0 28px rgba(150, 90, 220, 0.9); }
 }
 
-/* Marco animado tipo rayo (solo borde) */
-.login-container::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 20px; /* igual al contenedor */
-  padding: 2px;       /* grosor del borde animado */
-  background: conic-gradient(from var(--a,0deg),
-    transparent 0turn 0.85turn,
-    rgba(210,190,255,0.95) 0.875turn 0.905turn,
-    rgba(155,107,255,0.85) 0.905turn 0.94turn,
-    rgba(120,80,200,0.75) 0.94turn 0.97turn,
-    transparent 0.97turn 1turn
-  );
-  -webkit-mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude; /* estándar */
-  animation: border-sweep 2.1s linear infinite;
-  pointer-events: none;
-  box-shadow: 0 0 14px rgba(155,107,255,0.25); /* glow suave fuera del borde */
-}
 
-@keyframes border-sweep {
-  to { --a: 1turn; }
+
+
+
+@keyframes purpleGlowPulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(155, 107, 255, 0.5), 0 0 40px rgba(155, 107, 255, 0.3), 0 0 60px rgba(155, 107, 255, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(155, 107, 255, 0.8), 0 0 60px rgba(155, 107, 255, 0.5), 0 0 90px rgba(155, 107, 255, 0.3);
+  }
 }
 
 /* halo exterior sutil opcional */
 .login-container::after {
   content: "";
   position: absolute;
-  inset: -6px;
-  border-radius: 26px;
-  background: radial-gradient(60% 60% at 50% 50%, rgba(155,107,255,0.15), transparent 70%);
-  filter: blur(6px);
+  inset: -8px;
+  border-radius: 28px;
+  background: radial-gradient(60% 60% at 50% 50%, rgba(155,107,255,0.25), transparent 70%);
+  filter: blur(8px);
   pointer-events: none;
 }
 
@@ -169,8 +178,10 @@ input {
 
 input:focus {
   border-color: #9b6bff;
-  box-shadow: 0 0 10px rgba(155,107,255,0.45);
+  box-shadow: 0 0 15px rgba(155,107,255,0.6), inset 0 0 5px rgba(155,107,255,0.1);
   outline: none;
+  transform: scale(1.02);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 button {
@@ -188,8 +199,14 @@ button {
 
 button:not(:disabled):hover {
   background: linear-gradient(45deg, #7647d5, #a388ff);
-  transform: translateY(-2px) scale(1.05);
-  box-shadow: 0 5px 18px rgba(155,107,255,0.4);
+  transform: translateY(-3px) scale(1.08);
+  box-shadow: 0 8px 25px rgba(155,107,255,0.6), 0 0 30px rgba(155,107,255,0.3);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+button:not(:disabled):active {
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 3px 15px rgba(155,107,255,0.5);
 }
 
 .register-text {
@@ -210,173 +227,70 @@ button:not(:disabled):hover {
   color: #e0d7ff;
   text-decoration: underline;
 }
-/* ===== Fondo con gradiente animado ===== */
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(-45deg, #970000, #6f0000, #520000, #990000);
-  background-size: 400% 400%;
-  animation: fondoMovimiento 12s ease infinite;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 
-@keyframes fondoMovimiento {
-  0%   { background-position: 0% 50%; }
-  50%  { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-/* ===== Caja principal de login ===== */
-.login-container {
-  background: rgba(255, 255, 255, 0.95);
-  padding: 35px 30px;
-  border-radius: 20px;
-  text-align: center;
-  width: 360px;
-  max-width: 90%;
-  backdrop-filter: blur(12px);
-  box-shadow: 0 15px 40px rgba(0,0,0,0.35);
-  animation: aparecer 1s ease;
-}
-
-@keyframes aparecer {
-  from { transform: scale(0.85); opacity: 0; }
-  to   { transform: scale(1); opacity: 1; }
-}
-
-/* ===== Logos superiores ===== */
-.logos {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-.logos img {
-  height: 70px;
-  max-width: 45%;
-  object-fit: contain;
-  transition: transform 0.5s ease;
-}
-
-.logos img:hover {
-  transform: rotateY(15deg) scale(1.1);
-}
-
-/* ===== Logo central ===== */
-.logo-center {
-  display: flex;
-  justify-content: center;
-  margin: 20px 0 15px 0;
-}
-
-.logo-center img {
-  height: 100px;
-  width: auto;
-  border-radius: 50%;
-  padding: 4px;
-  background: white;
-  box-shadow: 0 0 18px rgba(128,0,0,0.7);
-  animation: latido 2s infinite, glow 3s infinite alternate;
-}
-
-@keyframes latido {
-  0%, 50%, 100% { transform: scale(1); }
-  25%, 75%      { transform: scale(1.06); }
-}
-
-@keyframes glow {
-  from { box-shadow: 0 0 12px rgba(128,0,0,0.5); }
-  to   { box-shadow: 0 0 28px rgba(128,0,0,0.9); }
-}
-
-/* ===== Título ===== */
-h2 {
-  color: #800000;
-  margin-bottom: 20px;
-  font-weight: bold;
-  font-size: 20px;
-  letter-spacing: 1px;
-}
-
-/* ===== Formulario ===== */
-form {
+/* Pantalla de carga */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
   display: flex;
   flex-direction: column;
-  text-align: left;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
 }
 
-.input-container {
+.loading-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.loading-spinner {
   position: relative;
-  margin-bottom: 16px;
+  width: 100px;
+  height: 100px;
 }
 
-.input-container i {
+.lightning-bolt {
   position: absolute;
-  top: 50%;
-  left: 10px;
-  transform: translateY(-50%);
-  color: #800000;
-  font-size: 16px;
-}
-
-/* ===== Campos de texto ===== */
-input {
+  top: 0;
+  left: 0;
   width: 100%;
-  padding: 8px 12px 8px 36px;
-  border: 1px solid #ccc;
-  border-radius: 12px;
-  font-size: 15px;
-  line-height: 1.4;
-  transition: all 0.3s ease;
-  box-sizing: border-box;
+  height: 100%;
+  background: conic-gradient(from 0deg,
+    transparent 0deg 330deg,
+    #9b6bff 330deg 340deg,
+    #d0c6ff 340deg 350deg,
+    #9b6bff 350deg 360deg
+  );
+  border-radius: 50%;
+  animation: spin 1s linear infinite, flicker 0.1s infinite alternate;
+  box-shadow: 0 0 30px rgba(155, 107, 255, 0.8);
 }
 
-input:focus {
-  border-color: #800000;
-  box-shadow: 0 0 10px rgba(128,0,0,0.5);
-  outline: none;
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
-/* ===== Botón ===== */
-button {
-  background: linear-gradient(45deg, #800000, #b00000);
-  color: white;
-  border: none;
-  padding: 12px;
-  border-radius: 25px;
-  font-size: 16px;
+.loading-text {
+  color: #d0c6ff;
+  font-size: 18px;
   font-weight: bold;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  width: 100%;
-}
-
-button:not(:disabled):hover {
-  background: linear-gradient(45deg, #b00000, #ff1a1a);
-  transform: translateY(-2px) scale(1.05);
-  box-shadow: 0 5px 18px rgba(128,0,0,0.6);
-}
-
-/* ===== Texto de registro ===== */
-.register-text {
-  margin-top: 18px;
+  margin-top: 20px;
   text-align: center;
-  color: #333;
-  font-size: 14px;
+  animation: pulse 1.5s ease-in-out infinite;
 }
 
-.register-text a {
-  color: #800000;
-  font-weight: bold;
-  text-decoration: none;
-  transition: color 0.3s ease;
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
 }
 
-.register-text a:hover {
-  color: #ff1a1a;
-  text-decoration: underline;
-}
