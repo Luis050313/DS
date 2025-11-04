@@ -47,7 +47,7 @@ function alModificar(){
   btnModificar.disabled = true;
   if(seleccionado && validar()){
     btnModificar.disabled = false;
-    btnCancelar.style.display = 'block';
+    btnEliminar.disabled = true;
   }
 }
 [numeroControl, nombre, paterno, materno, contraseña].forEach(elemento => { //Conjunto de acciones que ocurren al querer modificar Campos
@@ -65,7 +65,7 @@ function alSeleccionar() {
   //Limpiar campos
   limpiarCampos();
   //Cancelar una modificación
-  detenerModificar();
+  detenerProceso();
   //Cuando es Auxiliar
   if(ComboTipoRegistro.value === '1'){
     clave.style.display = 'flex';
@@ -153,6 +153,8 @@ function desplegarTabla(){
                         seleccionado = true;
                         btnModificar.disabled = true;
                         numeroControl.readOnly = true;
+                        btnEliminar.disabled = false;
+                        btnCancelar.style.display = 'block';
                     });
 
                     tbody.appendChild(tr);
@@ -287,27 +289,21 @@ function modificar() {
       mostrarMensaje("❌ Ocurrió un error al intentar modificar.");
     });
     //Regresar al modo normal
-    detenerModificar();
+    detenerProceso();
 }
 
-function detenerModificar(){
+function detenerProceso(){
   //Regresar al modo normal
     btnModificar.disabled = true;
     seleccionado = false;
     numeroControl.readOnly = false;
     btnCancelar.style.display = 'none';
+    btnEliminar.disabled = true;
+    fila = null;
     limpiarCampos();
 }
 
 function eliminar() {
-    if (!fila) {
-        alert("⚠️ Selecciona primero un elemento de la tabla para eliminar");
-        return;
-    }
-
-    // Confirmación de borrado lógico
-    if (!confirm("¿Seguro que deseas eliminar (cambio de estado) este registro?")) return;
-
     fetch("../../php/Usuarios-LAGP/Eliminar.php", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -316,7 +312,7 @@ function eliminar() {
     })
     .then(response => response.text())
     .then(data => {
-        alert(data);
+        mostrarMensaje(data);
 
         limpiarCampos();
 
@@ -324,6 +320,8 @@ function eliminar() {
         desplegarTabla(); // recarga la tabla
     })
     .catch(error => console.error("Error:", error));
+    //Regresar al modo normal
+    detenerProceso();
 }
 
 function limpiarCampos(){
