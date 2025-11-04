@@ -59,6 +59,10 @@ function login() {
           localStorage.setItem("token", data.token);
         }
 
+        // Mostrar pantalla de carga
+        const loadingOverlay = document.getElementById("loading-overlay");
+        loadingOverlay.classList.add("show");
+
         // Determinar destino según la longitud del usuario
         let destino = "";
         if (usuario.length === 4) {
