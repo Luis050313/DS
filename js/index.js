@@ -54,6 +54,11 @@ function login() {
       if (data.status === "success") {
         mostrarMensaje(data.message, "success");
 
+        // Este IF guarda el token JWT del usuario
+        if(data.token){
+          localStorage.setItem("token", data.token);
+        }
+
         // Determinar destino según la longitud del usuario
         let destino = "";
         if (usuario.length === 4) {
