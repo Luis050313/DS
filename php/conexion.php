@@ -1,12 +1,17 @@
 <?php
-$host = "localhost";
-$user = "root";
-$pass = "root";
-$db   = "laboratorio_electronica";
+require_once __DIR__ . '/../vendor/autoload.php';
 
-$conn = new mysqli($host, $user, $pass, $db);
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
+$dotenv->load();
 
-if ($conn->connect_error) {
-    die("Conexión fallida");
+$conn = mysqli_connect(
+    $_ENV['DB_HOST'],
+    $_ENV['DB_USER'],
+    $_ENV['DB_PASS'],
+    $_ENV['DB_NAME']
+);
+
+if (!$conn) {
+    die("Error de conexión: " . mysqli_connect_error());
 }
 ?>
