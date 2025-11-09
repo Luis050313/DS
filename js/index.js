@@ -52,7 +52,6 @@ function login() {
     .then(response => response.json())
     .then(data => {
       if (data.status === "success") {
-        mostrarMensaje(data.message, "success");
 
         // Este IF guarda el token JWT del usuario
         if(data.token){
