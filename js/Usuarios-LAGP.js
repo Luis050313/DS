@@ -9,6 +9,7 @@ const numeroControl = document.getElementById('numeroControl');
 const nombre = document.getElementById('nombre');
 const paterno = document.getElementById('paterno');
 const materno = document.getElementById('materno');
+const correo = document.getElementById("correo");
 
 //Listener
 const clave = document.getElementById('clave');
@@ -23,8 +24,8 @@ const btnEliminar = document.getElementById('Eliminar');
 const btnCancelar = document.getElementById('Cancelar');
 btnCancelar.style.display = 'none';
 
-//Activar boton al guardar
-[numeroControl, nombre, paterno, materno, contraseña]
+//Activar botones al modificar
+[numeroControl, nombre, paterno, materno, contraseña, correo]
   .forEach(elemento => {
     elemento.addEventListener('input', validar);
   });
@@ -42,22 +43,6 @@ btn.addEventListener('click', (e) => {
 //Selección de fila
 let fila = null;
 let seleccionado = false;
-
-function alModificar(){
-  btnModificar.disabled = true;
-  if(seleccionado && validar()){
-    btnModificar.disabled = false;
-    btnEliminar.disabled = true;
-  }
-}
-[numeroControl, nombre, paterno, materno, contraseña].forEach(elemento => { //Conjunto de acciones que ocurren al querer modificar Campos
-    elemento.addEventListener('input', () => {
-      alModificar();
-    });
-});
-comboCarreras.addEventListener('change', ()=>{ //Conjunto de acciones que ocurren al querer modificar Combobox
-  alModificar();
-});
 
 function alSeleccionar() {
   //Deshabilitar botones
@@ -148,6 +133,7 @@ function desplegarTabla(){
                         nombre.value = persona.nombre;
                         paterno.value = persona.apellidoPaterno;
                         materno.value = persona.apellidoMaterno;
+                        correo.value = persona.correo;
                         buscarCarrera(persona.id);
                         //Modificar o Eliminar
                         seleccionado = true;
@@ -171,11 +157,12 @@ function desplegarTabla(){
 }
 
 function validar(){
-  //Desactivar botón Guardar
+  //Desactivar botón Guardar y Modificar
   btnGuardar.disabled = true;
+  btnModificar.disabled = true;
   //Validar campos
   if(ComboTipoRegistro.value !== '2' && numeroControl.value.length === 4){
-    console.log("Es docente o auxiliar con NC correcto");
+    console.log("Auxiliar con NC correcto");
   }else if(ComboTipoRegistro.value === '2' && numeroControl.value.length === 8){
     console.log("Es alumno con NC correcto");
     if(comboCarreras.value !== ''){
@@ -187,14 +174,18 @@ function validar(){
     return false;
   }
 
-  if(nombre.checkValidity()){}  else{ return false; }
-  if(paterno.checkValidity()){} else{ return false; }
-  if(materno.checkValidity()){} else{ return false; }
+  if(!nombre.checkValidity()){ return false;} 
+  if(!paterno.checkValidity()){ return false;}
+  if(!materno.checkValidity()){ return false;}
+  if(!correo.checkValidity()){ return false;}
+  
   //Para reusar el método con la función modificar
   if(seleccionado){
+    btnModificar.disabled = false;
+    btnEliminar.disabled = true;
     return true;
   }
-  if(ComboTipoRegistro.value === '3' || contraseña.value !== ''){
+  if(contraseña.value !== ''){
     console.log("Formulario común correcto");
     //Activar botón guardar
     btnGuardar.disabled = false;
@@ -230,6 +221,7 @@ function guardar(){
   const lastname2 = materno.value.trim();
   const career = comboCarreras.value.trim();
   const password = contraseña.value.trim();
+  const email = correo.value.trim();
 
   fetch("../../php/Usuarios-LAGP/Guardar.php", {
       method: "POST",
@@ -239,8 +231,9 @@ function guardar(){
             "&nombre=" + encodeURIComponent(name) + 
             "&apellidoPaterno=" + encodeURIComponent(lastname) + 
             "&apellidoMaterno=" + encodeURIComponent(lastname2) + 
-            "&carrera=" + encodeURIComponent(career)+
-            "&clave=" + encodeURIComponent(password)
+            "&carrera=" + encodeURIComponent(career) +
+            "&clave=" + encodeURIComponent(password) +
+            "&correo=" + encodeURIComponent(email)
   })
   .then(response => response.text())
   .then(data => {
@@ -261,6 +254,7 @@ function modificar() {
   const career = comboCarreras.value.trim();
   const tipo = ComboTipoRegistro.value;
   const pass = contraseña.value.trim();
+  const email = correo.value.trim();
 
   fetch("../../php/Usuarios-LAGP/Modificar.php", {
     method: "POST",
@@ -272,7 +266,8 @@ function modificar() {
       "&apellidoPaterno=" + encodeURIComponent(lastname) +
       "&apellidoMaterno=" + encodeURIComponent(lastname2) +
       "&carrera=" + encodeURIComponent(career) +
-      "&clave=" + encodeURIComponent(pass)
+      "&clave=" + encodeURIComponent(pass) +
+      "&correo=" + encodeURIComponent(email)
   })
     .then(response => response.text())
     .then(data => {
@@ -331,6 +326,7 @@ function limpiarCampos(){
   materno.value = '';
   comboCarreras.value = '';
   contraseña.value = '';
+  correo.value = '';
 }
 
 function desactivarBotones(){
@@ -339,7 +335,7 @@ function desactivarBotones(){
   btnModificar.disabled = true;
 }
 function hayProgreso(){
-  if(numeroControl.value !== '' || nombre.value !== '' || paterno.value !== '' || materno.value !== '' || comboCarreras.value !== '' || contraseña.value !== ''){
+  if(numeroControl.value !== '' || nombre.value !== '' || paterno.value !== '' || materno.value !== '' || comboCarreras.value !== '' || contraseña.value !== '' || correo.value !== ''){
     return true;
   }else{
     return false;

@@ -21,9 +21,6 @@ try {
         $conn->query("DELETE FROM carrerasalumnos WHERE numerocontrol = '$numeroControl'");
         $conn->query("DELETE FROM personas WHERE numerocontrol = '$numeroControl'");
         echo "Eliminado correctamente ✅";
-    }else if($tipo==3){//Profesor
-        $conn->query("DELETE FROM profesores WHERE id_profesor = '$numeroControl'");
-        echo "Eliminado correctamente ✅";
     }else{
         echo "No se puede eliminar todos los auxiliares ⚠️";
     }
@@ -39,9 +36,6 @@ try {
     }else if($tipo==2){//Alumno
         $conn->query("UPDATE usuarios SET id_estado = 2 WHERE numerocontrol = '$numeroControl'");
         $conn->query("UPDATE personas SET id_estado = 2 WHERE numerocontrol = '$numeroControl'");
-        echo "Desactivado correctamente ✅";
-    }else if($tipo==3){ //Profesor
-        $conn->query("UPDATE profesores SET id_estado = 2 WHERE id_profesor = '$numeroControl'");
         echo "Desactivado correctamente ✅";
     }
     $conn->commit();
