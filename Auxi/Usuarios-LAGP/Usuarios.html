@@ -23,7 +23,6 @@
                     <span>Tipo de registro: </span>
                     <select id="ComboTipoRegistro" onchange="alSeleccionar()">
                         <option value="1" selected>Auxiliar</option>
-                        <option value="3">Docente</option>
                         <option value="2">Alumno</option>
                     </select>
                 </div>
@@ -68,6 +67,15 @@
                     <select class="Carreras" id="comboCarreras">
                         <option value="">Cargando...</option>
                     </select>
+                    <!--Correo-->
+                    <span>Email: </span>
+                    <input  type="text" placeholder=" Escribe ..." minlength="1" maxlength="80" id="correo" required
+                            pattern="^[A-Za-z0-9Ññ_%+\-]+@[A-Za-z0-9Ññ_%+\-]+(\.[A-Za-z0-9Ññ_%+\-]+)+$"
+                            title="Introduce letras en el campo de apellido materno"
+                            oninput="
+                                this.value = this.value.replace(/[^A-Za-z0-9Ññ_%+\-@.]/g, '');
+                                this.value = this.value.replace(/^\s+/, '');"
+                    >
                     <!--Password-->
                     <span id="spanPass">Contraseña: </span>
                     <div id="clave">

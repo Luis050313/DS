@@ -8,11 +8,12 @@ $apellidoPaterno = $conn->real_escape_string($_POST['apellidoPaterno'] ?? '');
 $apellidoMaterno = $conn->real_escape_string($_POST['apellidoMaterno'] ?? '');
 $carrera         = $conn->real_escape_string($_POST['carrera'] ?? '');
 $clave           = $conn->real_escape_string($_POST['clave'] ?? '');
+$correo          = $conn->real_escape_string($_POST['correo'] ?? '');
 
 if ($id == 1) { // AUXILIAR
     try{
         $update = "UPDATE Personas 
-                   SET nombre='$nombre', apellidoPaterno='$apellidoPaterno', apellidoMaterno='$apellidoMaterno', id_estado = '1'
+                   SET nombre='$nombre', apellidoPaterno='$apellidoPaterno', apellidoMaterno='$apellidoMaterno', correo='$correo', id_estado = '1'
                    WHERE numeroControl='$numeroControl' AND id_Rol=$id";
         $conn->query($update);
         //Usuarios
@@ -30,7 +31,7 @@ if ($id == 1) { // AUXILIAR
 } elseif ($id == 2) { // ALUMNO
     try {
         $updatePersona = "UPDATE Personas 
-                          SET nombre='$nombre', apellidoPaterno='$apellidoPaterno', apellidoMaterno='$apellidoMaterno', id_estado = '1'
+                          SET nombre='$nombre', apellidoPaterno='$apellidoPaterno', apellidoMaterno='$apellidoMaterno', correo='$correo', id_estado = '1'
                           WHERE numeroControl='$numeroControl' AND id_Rol=$id";
         $updateCarrera = "UPDATE CarrerasAlumnos 
                           SET id_Carrera='$carrera'
@@ -48,16 +49,6 @@ if ($id == 1) { // AUXILIAR
         echo "✅ Proceso terminado ";
     } catch (Exception $e) {
         echo "❌ Error al modificar alumno: ";
-    }
-
-} elseif ($id == 3) { // PROFESOR
-    $update = "UPDATE Profesores 
-               SET nombre='$nombre', apellidoPaterno='$apellidoPaterno', apellidoMaterno='$apellidoMaterno', id_estado = '1'
-               WHERE id_Profesor='$numeroControl'";
-    if ($conn->query($update)) {
-        echo "✅ Proceso terminado ";
-    } else {
-        echo "❌ Error al modificar el profesor.";
     }
 
 } else {
