@@ -1,15 +1,18 @@
 <?php
 header('Content-Type: application/json');
 require 'conexion.php';
-require '../vendor/autoload.php'; // Esto es para utilizar Composer con el JWT
+require '../vendor/autoload.php';
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\PngWriter;
+use Endroid\QrCode\Encoding\Encoding;
+use Endroid\QrCode\ErrorCorrectionLevel;
+use Endroid\QrCode\RoundBlockSizeMode;
+use Endroid\QrCode\Color\Color;
 
-use Firebase\JWT\JWT; // Carpetas necesarias para usar JWT
-use Firebase\JWT\Key; // Carpetas necesarias para usar JWT
+$secret_key = "123";
 
-$secret_key = "123"; // clave secreta para el token
-
-
-// Verificar que se recibieron los datos
 if (!isset($_POST['usuario']) || !isset($_POST['password'])) {
     echo json_encode(["status" => "error", "message" => "Datos incompletos"]);
     exit;
@@ -18,7 +21,6 @@ if (!isset($_POST['usuario']) || !isset($_POST['password'])) {
 $numeroControl = $_POST['usuario'];
 $password = $_POST['password'];
 
-// Preparar consulta segura
 $stmt = $conn->prepare("SELECT id_Estado, numeroControl, Clave FROM Usuarios WHERE numeroControl = ?");
 $stmt->bind_param("i", $numeroControl);
 $stmt->execute();
@@ -32,14 +34,12 @@ if ($result->num_rows === 0) {
 $row = $result->fetch_assoc();
 $hash = $row['Clave'];
 
-// Verificar contraseña
 if (password_verify($password, $hash)) {
 
-    
-    // Datos que guarda para el JWT
+    // --- Generar token de sesión ---
     $payload = [
-        "iss" => "http://localhost:3000/DS/php/login.php",
-        "aud" => "http://localhost:3000/DS/Auxi/auxiliar.html",
+        "iss" => "http://localhost/DS/php/login.php",
+        "aud" => "http://localhost/DS/Auxi/auxiliar.html",
         "iat" => time(),
         "exp" => time() + (60 * 60),
         "data" => [
@@ -48,10 +48,38 @@ if (password_verify($password, $hash)) {
         ]
     ];
 
-    $jwt = JWT::encode($payload, $secret_key, 'HS256'); // crea el token
-    
+    $jwt = JWT::encode($payload, $secret_key, 'HS256');
 
-    echo json_encode(["status" => "success", "message" => "✅ Login exitoso", "token" => $jwt]);
+    // --- Generar código temporal de validación (2FA) ---
+    $codigo2FA = rand(100000, 999999);
+
+    // Podrías guardarlo en sesión o DB temporalmente
+    session_start();
+    $_SESSION['codigo2FA'] = $codigo2FA;
+    $_SESSION['jwt'] = $jwt;
+
+    // --- Crear QR con el código ---
+    $writer = new PngWriter();
+    $qrCode = new QrCode(
+        data: "Código de verificación: $codigo2FA",
+        encoding: new Encoding('UTF-8'),
+        errorCorrectionLevel: ErrorCorrectionLevel::Low,
+        size: 300,
+        margin: 10,
+        roundBlockSizeMode: RoundBlockSizeMode::Margin,
+        foregroundColor: new Color(0, 0, 0),
+        backgroundColor: new Color(255, 255, 255)
+    );
+
+    $resultado = $writer->write($qrCode);
+    $imagenQR = base64_encode($resultado->getString());
+
+    echo json_encode([
+        "status" => "2FA",
+        "message" => "Se requiere validación 2FA",
+        "qr" => "data:image/png;base64," . $imagenQR
+    ]);
+
 } else {
     echo json_encode(["status" => "error", "message" => "❌ Contraseña incorrecta"]);
 }

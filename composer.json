@@ -1,5 +1,7 @@
 {
     "require": {
-        "firebase/php-jwt": "^6.11"
+        "firebase/php-jwt": "^6.11",
+        "phpgangsta/googleauthenticator": "dev-master",
+        "endroid/qr-code": "^6.0"
     }
 }
