@@ -1,7 +1,7 @@
 // Temporizador de inactividad de sesión
 class SessionTimeoutManager {
     constructor() {
-        this.timeoutDuration = 2 * 60 * 1000; // 2 minutos en milisegundos
+        this.timeoutDuration = 0.5 * 60 * 1000; // 2 minutos en milisegundos
         this.warningDuration = 10 * 1000; // 10 segundos para el modal
         this.timer = null;
         this.warningTimer = null;
