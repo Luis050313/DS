@@ -1,47 +1,36 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Laboratorio de Electrónica Analógica</title>
-  <link rel="stylesheet" href="login.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-</head>
-<body>
-  <div class="login-container">
-    
-    <!-- Logos superiores -->
-    <div class="logos">
-      <img src="logo1.png" alt="TecNM" class="logo-left">
-      <img src="escudo.png" alt="Universidad" class="logo-right">
-    </div>
-
-    <!-- Logo central -->
-    <div class="logo-center">
-      <img src="Burrito.png" alt="Logo Burro">
-    </div>
-
-    <!-- Título -->
-    <h2>Laboratorio de Electrónica Analógica</h2>
-
-    <!-- Formulario -->
-    <form id="loginForm">
-      <div class="input-container">
-        <i class="fa fa-user"></i>
-        <input type="text" id="usuario" name="usuario" placeholder="Usuario" required>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Personas</title>
+    <link rel="stylesheet" href="../General-LAGP.css" />
+    <link rel="stylesheet" href="../mensajes.css" />
+    <link rel="stylesheet" href="alumnos.css" />
+  </head>
+  <body>
+    <div id="AreaTrabajo">
+      <div id="Encabezado">
+        <img
+          src="../img/TECNM.png"
+          alt="Logo de Tecnológico Nacional  de México"
+        />
+        <h1>Alumno</h1>
+        <img
+          src="../img/escudo.png"
+          alt="Logo de Instituto Tecnológico de Saltillo"
+        />
       </div>
-
-      <div class="input-container">
-        <i class="fa fa-lock"></i>
-        <input type="password" id="password" name="password" placeholder="Contraseña" required>
+      <hr />
+      <div id="DatosAlumno">
+          <span id="nombre">Nombre: Luis Alberto García Posada</span>
+          <span id="correo">Correo: luisagp2005@gmail.com</span>
+          <span id="telefono">Teléfono: 8443586027</span>
+          <button type="button" id="btnModificar">Modificar</button>
       </div>
-
-      <button type="submit">Iniciar sesión</button>
-    </form>
-  </div>
-
-  <script src="../js/validarTokenJWT.js"></script>
-  <script src="../js/sessionTimeout.js"></script>
-  <script src="script.js"></script>
-</body>
+      </div>
+    </div>
+    <script src="../js/mensajes.js"></script>
+    <script src="../js/correo.js"></script>
+  </body>
 </html>
