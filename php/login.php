@@ -2,6 +2,8 @@
 header('Content-Type: application/json');
 require 'conexion.php';
 require '../vendor/autoload.php';
+
+
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Endroid\QrCode\QrCode;
@@ -21,7 +23,8 @@ if (!isset($_POST['usuario']) || !isset($_POST['password'])) {
 $numeroControl = $_POST['usuario'];
 $password = $_POST['password'];
 
-$stmt = $conn->prepare("SELECT id_Estado, numeroControl, Clave FROM Usuarios WHERE numeroControl = ?");
+// Preparar consulta segura
+$stmt = $conn->prepare("SELECT id_Estado, numeroControl, Clave FROM usuarios WHERE numeroControl = ? and id_estado = 1");
 $stmt->bind_param("i", $numeroControl);
 $stmt->execute();
 $result = $stmt->get_result();

@@ -26,4 +26,4 @@
  $imagenQR = base64_encode($resultado->getString());
  ?>
 
- <img src="data::image/png;base64 , <?= $imagenQR ?>"  alt= "">
+ <img src="data::image/png;base64 , <?= $imagenQR ?>"  alt= "Codigo QR">

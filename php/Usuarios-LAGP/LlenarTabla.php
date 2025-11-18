@@ -7,13 +7,11 @@ $idRol = isset($_POST['id']) ? intval($_POST['id']) : 0;
 
 
 if ($idRol < 3) {
-    $query = "SELECT numeroControl AS id, nombre, apellidoPaterno, apellidoMaterno
+    $query = "SELECT numeroControl AS id, nombre, apellidoPaterno, apellidoMaterno, correo
               FROM personas
               WHERE id_Rol = $idRol AND id_Estado = 1";
 } else {
-    $query = "SELECT id_Profesor AS id, nombre, apellidoPaterno, apellidoMaterno
-              FROM profesores
-              WHERE id_Estado = 1";
+    echo "Tipo de registro inválido";
 }
 
 $result = $conn->query($query);

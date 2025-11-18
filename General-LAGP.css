@@ -140,3 +140,42 @@ span{
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     color: #d92525;
 }
+/*regreso*/
+footer{
+    display: flex;
+    justify-content: flex-end; 
+    align-items: center;
+    gap: 0.5rem; 
+    height: 3rem;
+    margin: 1rem;
+    padding-right: 2.8rem;
+}
+footer button {
+  background: #ffffff;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 3rem;
+  width: 3rem;
+  transition: all 0.4s ease;
+  padding: 0;
+}
+
+footer button:hover {
+    background: #ffffff;
+}
+
+footer button svg {
+  width: 60%;
+}
+
+footer button svg path {
+  fill: #7a0000;
+  transition: fill 0.3s;
+}
+
+footer button:hover svg path {
+  fill: rgb(214, 16, 16);
+}
+

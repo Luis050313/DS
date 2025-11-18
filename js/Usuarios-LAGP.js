@@ -9,6 +9,7 @@ const numeroControl = document.getElementById('numeroControl');
 const nombre = document.getElementById('nombre');
 const paterno = document.getElementById('paterno');
 const materno = document.getElementById('materno');
+const correo = document.getElementById("correo");
 
 //Listener
 const clave = document.getElementById('clave');
@@ -23,8 +24,8 @@ const btnEliminar = document.getElementById('Eliminar');
 const btnCancelar = document.getElementById('Cancelar');
 btnCancelar.style.display = 'none';
 
-//Activar boton al guardar
-[numeroControl, nombre, paterno, materno, contraseña]
+//Activar botones al modificar
+[numeroControl, nombre, paterno, materno, contraseña, correo]
   .forEach(elemento => {
     elemento.addEventListener('input', validar);
   });
@@ -43,29 +44,13 @@ btn.addEventListener('click', (e) => {
 let fila = null;
 let seleccionado = false;
 
-function alModificar(){
-  btnModificar.disabled = true;
-  if(seleccionado && validar()){
-    btnModificar.disabled = false;
-    btnCancelar.style.display = 'block';
-  }
-}
-[numeroControl, nombre, paterno, materno, contraseña].forEach(elemento => { //Conjunto de acciones que ocurren al querer modificar Campos
-    elemento.addEventListener('input', () => {
-      alModificar();
-    });
-});
-comboCarreras.addEventListener('change', ()=>{ //Conjunto de acciones que ocurren al querer modificar Combobox
-  alModificar();
-});
-
 function alSeleccionar() {
   //Deshabilitar botones
   desactivarBotones();
   //Limpiar campos
   limpiarCampos();
   //Cancelar una modificación
-  detenerModificar();
+  detenerProceso();
   //Cuando es Auxiliar
   if(ComboTipoRegistro.value === '1'){
     clave.style.display = 'flex';
@@ -148,11 +133,14 @@ function desplegarTabla(){
                         nombre.value = persona.nombre;
                         paterno.value = persona.apellidoPaterno;
                         materno.value = persona.apellidoMaterno;
+                        correo.value = persona.correo;
                         buscarCarrera(persona.id);
                         //Modificar o Eliminar
                         seleccionado = true;
                         btnModificar.disabled = true;
                         numeroControl.readOnly = true;
+                        btnEliminar.disabled = false;
+                        btnCancelar.style.display = 'block';
                     });
 
                     tbody.appendChild(tr);
@@ -169,11 +157,12 @@ function desplegarTabla(){
 }
 
 function validar(){
-  //Desactivar botón Guardar
+  //Desactivar botón Guardar y Modificar
   btnGuardar.disabled = true;
+  btnModificar.disabled = true;
   //Validar campos
   if(ComboTipoRegistro.value !== '2' && numeroControl.value.length === 4){
-    console.log("Es docente o auxiliar con NC correcto");
+    console.log("Auxiliar con NC correcto");
   }else if(ComboTipoRegistro.value === '2' && numeroControl.value.length === 8){
     console.log("Es alumno con NC correcto");
     if(comboCarreras.value !== ''){
@@ -185,14 +174,18 @@ function validar(){
     return false;
   }
 
-  if(nombre.checkValidity()){}  else{ return false; }
-  if(paterno.checkValidity()){} else{ return false; }
-  if(materno.checkValidity()){} else{ return false; }
+  if(!nombre.checkValidity()){ return false;} 
+  if(!paterno.checkValidity()){ return false;}
+  if(!materno.checkValidity()){ return false;}
+  if(!correo.checkValidity()){ return false;}
+  
   //Para reusar el método con la función modificar
   if(seleccionado){
+    btnModificar.disabled = false;
+    btnEliminar.disabled = true;
     return true;
   }
-  if(ComboTipoRegistro.value === '3' || contraseña.value !== ''){
+  if(contraseña.value !== ''){
     console.log("Formulario común correcto");
     //Activar botón guardar
     btnGuardar.disabled = false;
@@ -228,6 +221,7 @@ function guardar(){
   const lastname2 = materno.value.trim();
   const career = comboCarreras.value.trim();
   const password = contraseña.value.trim();
+  const email = correo.value.trim();
 
   fetch("../../php/Usuarios-LAGP/Guardar.php", {
       method: "POST",
@@ -237,8 +231,9 @@ function guardar(){
             "&nombre=" + encodeURIComponent(name) + 
             "&apellidoPaterno=" + encodeURIComponent(lastname) + 
             "&apellidoMaterno=" + encodeURIComponent(lastname2) + 
-            "&carrera=" + encodeURIComponent(career)+
-            "&clave=" + encodeURIComponent(password)
+            "&carrera=" + encodeURIComponent(career) +
+            "&clave=" + encodeURIComponent(password) +
+            "&correo=" + encodeURIComponent(email)
   })
   .then(response => response.text())
   .then(data => {
@@ -259,6 +254,7 @@ function modificar() {
   const career = comboCarreras.value.trim();
   const tipo = ComboTipoRegistro.value;
   const pass = contraseña.value.trim();
+  const email = correo.value.trim();
 
   fetch("../../php/Usuarios-LAGP/Modificar.php", {
     method: "POST",
@@ -270,7 +266,8 @@ function modificar() {
       "&apellidoPaterno=" + encodeURIComponent(lastname) +
       "&apellidoMaterno=" + encodeURIComponent(lastname2) +
       "&carrera=" + encodeURIComponent(career) +
-      "&clave=" + encodeURIComponent(pass)
+      "&clave=" + encodeURIComponent(pass) +
+      "&correo=" + encodeURIComponent(email)
   })
     .then(response => response.text())
     .then(data => {
@@ -287,27 +284,21 @@ function modificar() {
       mostrarMensaje("❌ Ocurrió un error al intentar modificar.");
     });
     //Regresar al modo normal
-    detenerModificar();
+    detenerProceso();
 }
 
-function detenerModificar(){
+function detenerProceso(){
   //Regresar al modo normal
     btnModificar.disabled = true;
     seleccionado = false;
     numeroControl.readOnly = false;
     btnCancelar.style.display = 'none';
+    btnEliminar.disabled = true;
+    fila = null;
     limpiarCampos();
 }
 
 function eliminar() {
-    if (!fila) {
-        alert("⚠️ Selecciona primero un elemento de la tabla para eliminar");
-        return;
-    }
-
-    // Confirmación de borrado lógico
-    if (!confirm("¿Seguro que deseas eliminar (cambio de estado) este registro?")) return;
-
     fetch("../../php/Usuarios-LAGP/Eliminar.php", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -316,7 +307,7 @@ function eliminar() {
     })
     .then(response => response.text())
     .then(data => {
-        alert(data);
+        mostrarMensaje(data);
 
         limpiarCampos();
 
@@ -324,6 +315,8 @@ function eliminar() {
         desplegarTabla(); // recarga la tabla
     })
     .catch(error => console.error("Error:", error));
+    //Regresar al modo normal
+    detenerProceso();
 }
 
 function limpiarCampos(){
@@ -333,6 +326,7 @@ function limpiarCampos(){
   materno.value = '';
   comboCarreras.value = '';
   contraseña.value = '';
+  correo.value = '';
 }
 
 function desactivarBotones(){
@@ -340,7 +334,25 @@ function desactivarBotones(){
   btnEliminar.disabled = true;
   btnModificar.disabled = true;
 }
+function hayProgreso(){
+  if(numeroControl.value !== '' || nombre.value !== '' || paterno.value !== '' || materno.value !== '' || comboCarreras.value !== '' || contraseña.value !== '' || correo.value !== ''){
+    return true;
+  }else{
+    return false;
+  }
+}
+
+function salir(){
+  if(hayProgreso()){
+    mostrarConfirmacion('Tienes datos sin guardar en el formulario. Si sales ahora perderás datos. ¿Deseas salir igualmente?', 
+                        function() { location.href = "../auxiliar.html"; }
+    );
+  }else{
+    location.href = "../auxiliar.html";
+  }
+}
 
 //Se ejecuta al cargar el html
+limpiarCampos();
 desactivarBotones();
 window.onload = desplegarTabla;

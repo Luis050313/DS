@@ -1,23 +1,49 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Menú Principal</title>
-  <!-- Si este documento está en Auxi/, auxiliar.css está en la misma carpeta -->
-  <link rel="stylesheet" href="auxiliar.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-store" />
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <title>Verificación en Dos Pasos</title>
+  <style>
+    body { text-align: center; font-family: sans-serif; margin-top: 50px; }
+    img { width: 250px; height: 250px; margin: 20px; }
+    input { padding: 8px; font-size: 16px; }
+    button { padding: 10px 20px; font-size: 16px; margin-left: 10px; cursor: pointer; }
+  </style>
 </head>
+
 <body>
-    <img src=".$filename."/>
-    <img>  
-    <center>
-        <h3>NECESITAMOS VALIDAR SU SESION</h3>
-        <br>
-    <div class="register-text">
-        <a href="">validar por correo</a>
-    </div>
-    </center>
+ <center>
+  <h1>Segunda verificación requerida</h1>
+  <h3>Escanea el QR e ingresa el código que contiene.</h3>
+
+  <!-- Aquí se insertará el QR -->
+  <img id="qrImagen" src="" alt="QR 2FA">
+
+  <br>
+  <input id="codigo2FA" placeholder="Código de verificación">
+  <button onclick="verificarCodigo2FA()">Verificar</button>
+
+  <script>
+  // Cargar el QR desde sessionStorage
+  const qr = sessionStorage.getItem("qr2FA");
+
+  if (!qr) {
+    alert("No se encontró el código QR. Inicia sesión nuevamente.");
+    window.location.href = "../index.html";
+  }
+
+  document.getElementById("qrImagen").src = qr;
+  </script>
+
+  <br>
+
+  <h2><a href="../validacionPorCorreo.php">Validar por correo electronico</a></h2>   <!--Url para la validacion por CORREO ELECTRONICO-->
+ </center>
+  <script src="../js/validacionDosPasos.js"></script> <!-- llama al codigo que valida los datos del QR-->
 </body>
 </html>
-

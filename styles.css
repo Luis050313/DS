@@ -1,41 +1,69 @@
-/* ===== Fondo con gradiente animado ===== */
+
+/* Fondo con gradiente animado y partículas */
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(-45deg, #970000, #6f0000, #520000, #990000);
+  background: linear-gradient(-45deg, #1a1a1a, #2a0f3a, #3f1a5b, #0f0f12);
   background-size: 400% 400%;
   animation: fondoMovimiento 12s ease infinite;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    radial-gradient(circle at 20% 80%, rgba(155,107,255,0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(210,190,255,0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(120,80,200,0.1) 0%, transparent 50%);
+  background-size: 300px 300px, 400px 400px, 200px 200px;
+  animation: particles 20s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes particles {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(5%, -5%) rotate(90deg); }
+  50% { transform: translate(-5%, 5%) rotate(180deg); }
+  75% { transform: translate(3%, -3%) rotate(270deg); }
 }
 
 @keyframes fondoMovimiento {
-  0%   { background-position: 0% 50%; }
-  50%  { background-position: 100% 50%; }
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
 
-/* ===== Caja principal de login ===== */
+/* Caja login */
 .login-container {
-  background: rgba(255, 255, 255, 0.95);
+  position: relative;
+  background: rgba(20, 20, 24, 0.85);
   padding: 35px 30px;
   border-radius: 20px;
   text-align: center;
   width: 360px;
   max-width: 90%;
   backdrop-filter: blur(12px);
-  box-shadow: 0 15px 40px rgba(0,0,0,0.35);
-  animation: aparecer 1s ease;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+  animation: aparecer 1s ease, purpleGlowPulse 2s ease-in-out infinite;
+  border: 1px solid rgba(160, 100, 220, 0.25);
+  overflow: hidden;
 }
 
 @keyframes aparecer {
   from { transform: scale(0.85); opacity: 0; }
-  to   { transform: scale(1); opacity: 1; }
+  to { transform: scale(1); opacity: 1; }
 }
 
-/* ===== Logos superiores ===== */
+/* Logos superiores */
 .logos {
   display: flex;
   justify-content: space-between;
@@ -54,7 +82,7 @@ body {
   transform: rotateY(15deg) scale(1.1);
 }
 
-/* ===== Logo central ===== */
+/* Logo central */
 .logo-center {
   display: flex;
   justify-content: center;
@@ -66,31 +94,55 @@ body {
   width: auto;
   border-radius: 50%;
   padding: 4px;
-  background: white;
-  box-shadow: 0 0 18px rgba(128,0,0,0.7);
+  background: #0b0b0d;
+  box-shadow: 0 0 18px rgba(150, 90, 220, 0.6);
   animation: latido 2s infinite, glow 3s infinite alternate;
 }
 
 @keyframes latido {
   0%, 50%, 100% { transform: scale(1); }
-  25%, 75%      { transform: scale(1.06); }
+  25%, 75% { transform: scale(1.06); }
 }
 
 @keyframes glow {
-  from { box-shadow: 0 0 12px rgba(128,0,0,0.5); }
-  to   { box-shadow: 0 0 28px rgba(128,0,0,0.9); }
+  from { box-shadow: 0 0 12px rgba(150, 90, 220, 0.4); }
+  to { box-shadow: 0 0 28px rgba(150, 90, 220, 0.9); }
 }
 
-/* ===== Título ===== */
+
+
+
+
+@keyframes purpleGlowPulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(155, 107, 255, 0.5), 0 0 40px rgba(155, 107, 255, 0.3), 0 0 60px rgba(155, 107, 255, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(155, 107, 255, 0.8), 0 0 60px rgba(155, 107, 255, 0.5), 0 0 90px rgba(155, 107, 255, 0.3);
+  }
+}
+
+/* halo exterior sutil opcional */
+.login-container::after {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border-radius: 28px;
+  background: radial-gradient(60% 60% at 50% 50%, rgba(155,107,255,0.25), transparent 70%);
+  filter: blur(8px);
+  pointer-events: none;
+}
+
+/* Título */
 h2 {
-  color: #800000;
+  color: #d0c6ff;
   margin-bottom: 20px;
   font-weight: bold;
   font-size: 20px;
   letter-spacing: 1px;
 }
 
-/* ===== Formulario ===== */
+/* Formulario */
 form {
   display: flex;
   flex-direction: column;
@@ -107,15 +159,16 @@ form {
   top: 50%;
   left: 10px;
   transform: translateY(-50%);
-  color: #800000;
+  color: #9b6bff;
   font-size: 16px;
 }
 
-/* ===== Campos de texto ===== */
 input {
   width: 100%;
   padding: 8px 12px 8px 36px;
-  border: 1px solid #ccc;
+  border: 1px solid #3a3a40;
+  background: #0f0f12;
+  color: #e6e6e6;
   border-radius: 12px;
   font-size: 15px;
   line-height: 1.4;
@@ -124,14 +177,15 @@ input {
 }
 
 input:focus {
-  border-color: #800000;
-  box-shadow: 0 0 10px rgba(128,0,0,0.5);
+  border-color: #9b6bff;
+  box-shadow: 0 0 15px rgba(155,107,255,0.6), inset 0 0 5px rgba(155,107,255,0.1);
   outline: none;
+  transform: scale(1.02);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* ===== Botón ===== */
 button {
-  background: linear-gradient(45deg, #800000, #b00000);
+  background: linear-gradient(45deg, #5a2ea6, #8a5cff);
   color: white;
   border: none;
   padding: 12px;
@@ -144,27 +198,99 @@ button {
 }
 
 button:not(:disabled):hover {
-  background: linear-gradient(45deg, #b00000, #ff1a1a);
-  transform: translateY(-2px) scale(1.05);
-  box-shadow: 0 5px 18px rgba(128,0,0,0.6);
+  background: linear-gradient(45deg, #7647d5, #a388ff);
+  transform: translateY(-3px) scale(1.08);
+  box-shadow: 0 8px 25px rgba(155,107,255,0.6), 0 0 30px rgba(155,107,255,0.3);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* ===== Texto de registro ===== */
+button:not(:disabled):active {
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 3px 15px rgba(155,107,255,0.5);
+}
+
 .register-text {
   margin-top: 18px;
   text-align: center;
-  color: #333;
+  color: #c2c2c7;
   font-size: 14px;
 }
 
 .register-text a {
-  color: #800000;
+  color: #b79bff;
   font-weight: bold;
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 .register-text a:hover {
-  color: #ff1a1a;
+  color: #e0d7ff;
   text-decoration: underline;
 }
+
+/* Pantalla de carga */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.loading-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.loading-spinner {
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+
+.lightning-bolt {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: conic-gradient(from 0deg,
+    transparent 0deg 330deg,
+    #9b6bff 330deg 340deg,
+    #d0c6ff 340deg 350deg,
+    #9b6bff 350deg 360deg
+  );
+  border-radius: 50%;
+  animation: spin 1s linear infinite, flicker 0.1s infinite alternate;
+  box-shadow: 0 0 30px rgba(155, 107, 255, 0.8);
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.loading-text {
+  color: #d0c6ff;
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 20px;
+  text-align: center;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
