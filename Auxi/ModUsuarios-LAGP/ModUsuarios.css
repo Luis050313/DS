@@ -1,0 +1,21 @@
+#AreaTrabajo{
+    margin-left: 8vh;
+    margin-right: 8vh;
+    margin-top: 10vh;
+}
+#Registro{
+    justify-content: center;
+    gap: 1%;
+}
+#RegistroComun, #TipoRegistro, #RegistroAlumnos{
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    gap: 0.5rem;
+}
+input, select{
+    width: 50%;
+    font-size: 1rem;
+    color: gray;
+    padding: 0.3rem;
+}
