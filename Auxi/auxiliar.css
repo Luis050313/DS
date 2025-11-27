@@ -1,7 +1,7 @@
 /* === FONDO GENERAL === */
 body {
   font-family: 'Segoe UI', sans-serif;
-  background: radial-gradient(circle at center, #7a0000 10%, #2b0000 80%);
+  background: radial-gradient(circle at center, #53007a 10%, #1c002b 80%);
   margin: 0;
   padding: 0;
   height: 100vh;
@@ -34,14 +34,14 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 3px solid #7a0000;
+  border-bottom: 3px solid #47007a;
   padding-bottom: 10px;
 }
 
 header h1 {
-  color: #7a0000;
+  color: #49007a;
   font-size: 2em;
-  text-shadow: 1px 1px 2px #ffcccc;
+  text-shadow: 1px 1px 2px #f1ccff;
 }
 
 .logo {
@@ -50,7 +50,7 @@ header h1 {
 
 /* === MENÚ PRINCIPAL === */
 .menu {
-  background-color: #7a0000;
+  background-color: #4d007a;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 25px;
@@ -64,7 +64,7 @@ header h1 {
 .boton {
   background-color: #e0e0e0;
   border-radius: 10px;
-  color: #7a0000;
+  color: #4b007a;
   font-weight: bold;
   font-size: 18px;
   text-decoration: none;        /* 🔹 sin subrayado */
@@ -81,13 +81,13 @@ header h1 {
 
 .boton i {
   font-size: 1.3em;
-  color: #7a0000;
+  color: #4f007a;
 }
 
 .boton:hover {
   background-color: #cfcfcf;
   transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 8px 20px rgba(122, 0, 0, 0.4);
+  box-shadow: 0 8px 20px rgba(63, 0, 122, 0.4);
 }
 
 /* === PIE DE PÁGINA === */
@@ -99,7 +99,7 @@ footer {
 }
 
 .icono {
-  color: #7a0000;
+  color: #4f007a;
   font-size: 40px;
   text-decoration: none;         /* 🔹 sin subrayado */
   transition: transform 0.3s ease, color 0.3s ease;
@@ -107,7 +107,7 @@ footer {
 
 .icono:hover {
   transform: scale(1.2);
-  color: #d00000;
+  color: #9900d0;
 }
 
 /* === RESPONSIVO === */
