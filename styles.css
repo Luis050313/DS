@@ -294,3 +294,7 @@ button:not(:disabled):active {
   50% { opacity: 0.7; }
 }
 
+.g-recaptcha{
+  margin-left: 1.3rem;
+  margin-bottom: 0.5rem;
+}
