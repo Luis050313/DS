@@ -41,9 +41,17 @@ function login() {
     return;
   }
 
+  // Validar CAPTCHA
+  const captchaResponse = grecaptcha.getResponse();
+  if (!captchaResponse) {
+    mostrarMensaje("Por favor, completa el CAPTCHA", "error");
+    return;
+  }
+
   const formData = new FormData();
   formData.append("usuario", usuario);
   formData.append("password", password);
+  formData.append("g-recaptcha-response", captchaResponse);
 
   fetch("php/login.php", {
     method: "POST",
@@ -51,6 +59,9 @@ function login() {
   })
     .then(response => response.json())
     .then(data => {
+
+      grecaptcha.reset();
+      
       if (data.status === "success") {
 
         // Este IF guarda el token JWT del usuario

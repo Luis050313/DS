@@ -2,7 +2,7 @@
     box-sizing: border-box;
 }
 body{
-    background: linear-gradient(to right, #e60101, #660000, #330000, #cc0000);
+    background: linear-gradient(to right, #d301e6, #570066, #330031, #8f00cc);
     background-size: 400% 400%;
     animation: fondoMovimiento 6s linear infinite;
     padding-bottom: 2rem;
@@ -41,7 +41,7 @@ body{
 }
 hr{
     border:none;
-    border: 2px solid #d92525;
+    border: 2px solid #d92594;
     width: 95%;
 }
 #Formulario{
@@ -62,7 +62,7 @@ input, select{
 }
 input:focus, select:focus {
     outline: none;
-    border-color: red;
+    border-color: rgb(255, 0, 191);
 }
 #Botones{
     display: flex;
@@ -82,7 +82,7 @@ button{
     border: none;
     border-radius: 1.2rem;
     color: white;
-    background: linear-gradient(to right, #c60000, #a30101);
+    background: linear-gradient(to right, #c600bc, #a30188);
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-weight: bold;
     font-size: 1em;
@@ -91,8 +91,8 @@ button{
 }
 button:hover{
     transform: translateY(-3px) scale(1.05);
-    background: linear-gradient(to right, #e10000, #ac0101);
-    box-shadow: 0 8px 20px rgba(122, 0, 0, 0.6);
+    background: linear-gradient(to right, #b800e1, #9001ac);
+    box-shadow: 0 8px 20px rgba(116, 0, 122, 0.6);
 }
 button:disabled{
     opacity: 0.6;
@@ -115,7 +115,7 @@ table{
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 th{
-    background-color: rgb(207, 45, 45);
+    background-color: rgb(167, 45, 207);
     color: white;
     border-radius: 1rem;
 }
@@ -128,17 +128,17 @@ td:hover{
     cursor: pointer;
 }
 td:active{
-    background-color: rgb(255, 93, 93);
+    background-color: rgb(201, 93, 255);
     cursor: cell;
 }
 /*Textos*/ 
 h1{
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    color: #d92525;
+    color: #c425d9;
 }
 span{
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    color: #d92525;
+    color: #a925d9;
 }
 /*regreso*/
 footer{
@@ -171,11 +171,11 @@ footer button svg {
 }
 
 footer button svg path {
-  fill: #7a0000;
+  fill: #6c007a;
   transition: fill 0.3s;
 }
 
 footer button:hover svg path {
-  fill: rgb(214, 16, 16);
+  fill: rgb(178, 16, 214);
 }
 

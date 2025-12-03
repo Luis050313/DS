@@ -34,7 +34,7 @@ input, select{
     fill: black;
 }
 #clave :hover svg path{
-    fill: rgb(214, 16, 16);
+    fill: rgb(155, 16, 214);
 }
 .Carreras{
     /*Solo se muestra si está seleccionado alumnos*/

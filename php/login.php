@@ -8,6 +8,20 @@ use Firebase\JWT\Key; // Carpetas necesarias para usar JWT
 
 $secret_key = "123"; // clave secreta para el token
 
+// --- VALIDAR CAPTCHA ---
+$recaptcha = new \ReCaptcha\ReCaptcha("6LdqNSAsAAAAAP7ZyqUg_wHoM7_f87jPcIWHoObj");// --- VALIDAR CAPTCHA ---
+
+if (!isset($_POST['g-recaptcha-response'])) {
+    echo json_encode(["status" => "error", "message" => "Captcha no enviado"]);
+    exit;
+}
+
+$resp = $recaptcha->verify($_POST['g-recaptcha-response'], $_SERVER['REMOTE_ADDR']);
+
+if (!$resp->isSuccess()) {
+    echo json_encode(["status" => "error", "message" => "Captcha incorrecto"]);
+    exit;
+}
 
 // Verificar que se recibieron los datos
 if (!isset($_POST['usuario']) || !isset($_POST['password'])) {
