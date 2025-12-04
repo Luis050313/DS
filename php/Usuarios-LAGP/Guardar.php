@@ -1,5 +1,8 @@
 <?php
 include("../conexion.php");
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+require '../../vendor/autoload.php';  // Ajustado a tu estructura
 
 $id              = $conn->real_escape_string($_POST['id'] ?? '');
 $numeroControl   = $conn->real_escape_string($_POST['numeroControl'] ?? '');
@@ -36,6 +39,52 @@ if($checkPersona->num_rows == 0){
             }
         } else{
             echo "Registro inválido";
+        }
+
+        try {
+            $mail = new PHPMailer(true);
+            $mail->isSMTP();
+            $mail->Host       = 'smtp.gmail.com';
+            $mail->SMTPAuth   = true;
+            $mail->Username   = 'luisagp2005@gmail.com';
+            $mail->Password   = 'sqkv ngke efzy uekj';   // Tu App Password
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port       = 587;
+
+            // Remitente
+            $mail->setFrom('luisagp2005@gmail.com', 'Sistema LAGP');
+
+            // Destinatario (el usuario recién creado)
+            $mail->addAddress($correo, $nombre);
+
+            // Contenido del correo
+            $mail->isHTML(true);
+            $mail->Subject = 'Usuario Creado - Sistema LAGP';
+
+            // Crear mensaje
+            $mensajeHTML = "
+                <p>Hola <b>$nombre $apellidoPaterno $apellidoMaterno</b>.</p>
+                <p>Su usuario ha sido creado correctamente.</p>
+                <p>Acceda al siguiente enlace para cambiar su contraseña:</p>
+                <p><a href='http://10.0.44.194/DS/password.html'>http://10.0.44.194/DS/password.html</a></p>
+                <br>
+                <p>Atentamente,<br>Sistema LAGP</p>
+            ";
+
+            $mail->Body = $mensajeHTML;
+
+            // Alternativo en texto plano
+            $mail->AltBody = "Hola $nombre $apellidoPaterno $apellidoMaterno.\n\n".
+                            "Su usuario ha sido creado correctamente.\n".
+                            "Acceda al siguiente enlace para cambiar su contraseña:\n".
+                            "http://10.0.44.194/DS/password.html\n\n".
+                            "Sistema LAGP";
+
+            $mail->send();
+
+        } catch (Exception $e) {
+            // Si falla el correo, no interrumpimos el registro
+            error_log("Error enviando correo: {$mail->ErrorInfo}");
         }
 
         echo "Guardado correctamente ✅";
