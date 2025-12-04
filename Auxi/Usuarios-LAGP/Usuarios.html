@@ -117,10 +117,10 @@
                 type="password"
                 placeholder="Escribe tu contraseña"
                 maxlength="50"
-                title="No se permiten espacios"
+                title="Debe tener mayúscula, minúscula, número, especial y mínimo 8 caracteres"
                 oninput="
-                               this.value = this.value.replace(/[^0-9A-Za-zÁÉÍÓÚáéíóúÑñ]/g, '');
-                               this.value = this.value.replace(/^\s+/, '');"
+                  this.value = this.value.replace(/\s/g, ''); /* NO permitir espacios */
+                "
               />
               <button id="buttonPass" type="button" title="Mostrar contraseña">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">

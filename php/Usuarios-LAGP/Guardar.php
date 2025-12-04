@@ -66,7 +66,7 @@ if($checkPersona->num_rows == 0){
                 <p>Hola <b>$nombre $apellidoPaterno $apellidoMaterno</b>.</p>
                 <p>Su usuario ha sido creado correctamente.</p>
                 <p>Acceda al siguiente enlace para cambiar su contraseña:</p>
-                <p><a href='http://10.0.44.194/DS/password.html'>http://10.0.44.194/DS/password.html</a></p>
+                <p><a href='http://10.0.47.71/DS/password.html'>http://10.0.47.71/DS/password.html</a></p>
                 <br>
                 <p>Atentamente,<br>Sistema LAGP</p>
             ";
@@ -77,7 +77,7 @@ if($checkPersona->num_rows == 0){
             $mail->AltBody = "Hola $nombre $apellidoPaterno $apellidoMaterno.\n\n".
                             "Su usuario ha sido creado correctamente.\n".
                             "Acceda al siguiente enlace para cambiar su contraseña:\n".
-                            "http://10.0.44.194/DS/password.html\n\n".
+                            "http://10.0.47.71/DS/password.html\n\n".
                             "Sistema LAGP";
 
             $mail->send();

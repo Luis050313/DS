@@ -25,11 +25,42 @@ const btnCancelar = document.getElementById('Cancelar');
 btnCancelar.style.display = 'none';
 
 //Activar botones al modificar
-[numeroControl, nombre, paterno, materno, contraseña, correo]
+[numeroControl, nombre, paterno, materno, correo]
   .forEach(elemento => {
     elemento.addEventListener('input', validar);
   });
+contraseña.addEventListener('blur', validarPasswordAlFinal);
 comboCarreras.addEventListener('change', validar);
+
+function validarPasswordAlFinal() {
+    if (contraseña.value === "") return;
+
+    // Si contraseña NO válida → desactivar ambos botones
+    if (!validarPassword(contraseña.value)) {
+        mostrarMensaje("❌ La contraseña debe incluir mayúscula, minúscula, número, carácter especial y mínimo 8 caracteres.");
+        btnGuardar.disabled = true;
+
+        // Modificar solo se activa si seleccionaste un registro
+        if (seleccionado) btnModificar.disabled = true;
+
+        return;
+    }
+
+    // ====== CONTRASEÑA VÁLIDA ======
+
+    // Si NO estás editando un usuario → activar solo GUARDAR
+    if (!seleccionado) {
+        btnGuardar.disabled = false;
+        btnModificar.disabled = true;   // <-- EL FIX IMPORTANTE
+        return;
+    }
+
+    // Si estás modificando un usuario → activar solo MODIFICAR
+    if (seleccionado) {
+        btnModificar.disabled = false;
+        btnGuardar.disabled = true;
+    }
+}
 
 //Password
 btn.addEventListener('click', (e) => {
@@ -156,6 +187,13 @@ function desplegarTabla(){
         });
 }
 
+function validarPassword(pass) {
+  const regex =
+    /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+\[\]{};:'",.<>/?|`~]).{8,}$/;
+
+  return regex.test(pass);
+}
+
 function validar(){
   //Desactivar botón Guardar y Modificar
   btnGuardar.disabled = true;
@@ -185,11 +223,17 @@ function validar(){
     btnEliminar.disabled = true;
     return true;
   }
-  if(contraseña.value !== ''){
-    console.log("Formulario común correcto");
-    //Activar botón guardar
-    btnGuardar.disabled = false;
-    return true;
+  if (contraseña.value !== '') {
+
+      if (!validarPassword(contraseña.value)) {
+          btnGuardar.disabled = true;
+          mostrarMensaje("❌ La contraseña debe incluir: mayúscula, minúscula, número, carácter especial y mínimo 8 caracteres.");
+          return false;
+      }
+
+      console.log("Formulario común correcto");
+      btnGuardar.disabled = false;
+      return true;
   }
 }
 
@@ -255,6 +299,11 @@ function modificar() {
   const tipo = ComboTipoRegistro.value;
   const pass = contraseña.value.trim();
   const email = correo.value.trim();
+
+  if (!validarPassword(pass)) {
+      mostrarMensaje("❌ Contraseña inválida. Debe incluir mayúscula, minúscula, número, especial y mínimo 8 caracteres.");
+      return;
+  }
 
   fetch("../../php/Usuarios-LAGP/Modificar.php", {
     method: "POST",
